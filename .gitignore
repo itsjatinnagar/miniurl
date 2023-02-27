@@ -1,0 +1,9 @@
+# Visual Studio Code - Workspace Settings
+.vscode/
+
+# Python Environment
+env/
+
+# Auto Generated
+__pycache__
+*.pyc
