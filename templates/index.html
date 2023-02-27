@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MiniUrl</title>
+        <link
+            rel="shortcut icon"
+            href="/static/images/favicon.ico"
+            type="image/x-icon"
+        />
+        <link rel="stylesheet" href="/static/css/style.css" />
+    </head>
+    <body>
+        <header>
+            <nav class="container navbar">
+                <a href="{{ url_for('index') }}"
+                    ><img src="/static/images/logo.svg" alt="miniurl-logo"
+                /></a>
+                <button class="btn btn-signIn">Sign in</button>
+            </nav>
+            <section class="container hero">
+                <div class="hero-left">
+                    <h1 class="tagline">More than just shorter links</h1>
+                    <h3 class="description">
+                        Build your brand's recognition and get detailed insights
+                        on how your links are performing.
+                    </h3>
+                    <button class="btn btn-getStarted">Get Started</button>
+                </div>
+                <div class="hero-right">
+                    <img
+                        src="/static/images/illustration.svg"
+                        alt="miniurl-illustration"
+                    />
+                </div>
+            </section>
+        </header>
+        <main>
+            <div class="feature-header container">
+                <h2>Advanced Statistics</h2>
+                <p>
+                    Track how your links are performing across the web with our
+                    advanced statistics dashboard.
+                </p>
+            </div>
+            <div class="container features">
+                <div class="card">
+                    <div class="icon-wrapper">
+                        <img
+                            src="/static/images/icon-brand-recognition.svg"
+                            alt="miniurl-feature-brand-recognition"
+                        />
+                    </div>
+                    <h3>Brand Recognition</h3>
+                    <p>
+                        Boost your brand recognition with each click. Generic
+                        links don't mean a thing. Branded links help instil
+                        confidence in your content.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="icon-wrapper">
+                        <img
+                            src="/static/images/icon-detailed-records.svg"
+                            alt="miniurl-feature-detailed-records"
+                        />
+                    </div>
+                    <h3>Detailed Records</h3>
+                    <p>
+                        Gain insights into who is clicking your links. Knowing
+                        when and where people engage with your content helps
+                        inform better decisions.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="icon-wrapper">
+                        <img
+                            src="/static/images/icon-fully-customizable.svg"
+                            alt="miniurl-feature-fully-customizable"
+                        />
+                    </div>
+                    <h3>Fully Customizable</h3>
+                    <p>
+                        Improve brand awareness and content discoverability
+                        through customizable links, supercharging audience
+                        engagement.
+                    </p>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <section class="container">
+                <h2>Boost your links today</h2>
+                <p>
+                    MiniUrl is a URL shortener and a great tool to easily manage
+                    short links - also short branded links - supporting the
+                    development of your brand and your business.
+                </p>
+                <button class="btn btn-getStarted">Get Started</button>
+            </section>
+            <div class="footer">
+                <p>&copy; 2023 MiniUrl</p>
+            </div>
+        </footer>
+    </body>
+</html>
