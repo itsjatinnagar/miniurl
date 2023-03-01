@@ -11,6 +11,7 @@
             type="image/x-icon"
         />
         <link rel="stylesheet" href="/static/css/style.css" />
+        <script src="/static/js/script.js" defer></script>
     </head>
     <body>
         <header>
@@ -18,7 +19,14 @@
                 <a href="{{ url_for('index') }}"
                     ><img src="/static/images/logo.svg" alt="miniurl-logo"
                 /></a>
+                {% if username %}
+                <div class="profile">
+                    <p>Hi, {{ username }}</p>
+                    <a href="/logout" class="btn-signOut">Sign out</a>
+                </div>
+                {% else %}
                 <button class="btn btn-signIn">Sign in</button>
+                {% endif %}
             </nav>
             <section class="container hero">
                 <div class="hero-left">
@@ -37,6 +45,27 @@
                 </div>
             </section>
         </header>
+        <section class="form-wrapper">
+            <form class="container form" id="form">
+                {% if username %}
+                <input
+                    type="url"
+                    name="url"
+                    id="url"
+                    placeholder="Shorten a Link Here"
+                />
+                <button type="button" id="btn-sendCode">Shorten It!</button>
+                {% else %}
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Enter Your Email Here"
+                />
+                <button type="button" id="btn-sendCode">Send Code</button>
+                {% endif %}
+            </form>
+        </section>
         <main>
             <div class="feature-header container">
                 <h2>Advanced Statistics</h2>
@@ -104,5 +133,26 @@
                 <p>&copy; 2023 MiniUrl</p>
             </div>
         </footer>
+
+        <div id="overlay"></div>
+        <div id="modal" class="modal">
+            <h3>Verify Email Address</h3>
+            <p>
+                <span>Please enter the OTP we've send to</span>
+                <span id="user-email">nagarjatin336@gmail.com</span>
+            </p>
+            <form>
+                <input
+                    type="text"
+                    name="otp"
+                    id="otp"
+                    placeholder="000000"
+                    autofocus
+                />
+                <button type="button" id="btn-verify" class="btn-verify">
+                    Verify and Sign In
+                </button>
+            </form>
+        </div>
     </body>
 </html>

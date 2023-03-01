@@ -7,3 +7,6 @@ env/
 # Auto Generated
 __pycache__
 *.pyc
+
+# Secrets
+.env
