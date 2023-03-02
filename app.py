@@ -1,3 +1,4 @@
+from controllers.database import insertUser, readUser
 from controllers.mailer import emailCode
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, session, redirect, url_for
@@ -23,7 +24,7 @@ def index():
     if identifiers is None:
         return render_template('index.html')
     else:
-        return render_template('index.html', username = 'nagarjatin336')
+        return render_template('index.html', username = session['user_email'].split('@')[0])
 
 
 @app.route("/login", methods=['GET','POST'])
@@ -39,10 +40,21 @@ def login():
             return "Unsuccessful", 500
     else:
         if session['auth_code'] == request.json['code']:
-            session.pop('user_email')
-            session.pop('auth_code')
-            session['userID'] = '1'
-            return "Success", 200
+            result = readUser(session['user_email'])
+            if result is False:
+                return "Unsuccessful", 500
+            elif result is None:
+                result = insertUser(session['user_email'])
+                if result is False:
+                    return "Unsuccessful", 500
+                else:
+                    session.pop('auth_code')
+                    session['userID'] = result
+                    return "Success", 200
+            else:
+                session.pop('auth_code')
+                session['userID'] = '1'
+                return "Success", 200
         else:
             return "Invalid Code", 401
 

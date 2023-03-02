@@ -134,6 +134,9 @@
             </div>
         </footer>
 
+        {% if username %}
+        <aside class="sidebar"></aside>
+        {% else %}
         <div id="overlay"></div>
         <div id="modal" class="modal">
             <h3>Verify Email Address</h3>
@@ -154,5 +157,6 @@
                 </button>
             </form>
         </div>
+        {% endif %}
     </body>
 </html>
