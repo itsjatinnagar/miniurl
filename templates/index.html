@@ -11,6 +11,11 @@
             type="image/x-icon"
         />
         <link rel="stylesheet" href="/static/css/style.css" />
+        {% if username %}
+        <script src="/static/js/shorten.js" defer></script>
+        {% else %}
+        <script src="/static/js/login.js" defer></script>
+        {% endif %}
         <script src="/static/js/script.js" defer></script>
     </head>
     <body>
@@ -54,7 +59,7 @@
                     id="url"
                     placeholder="Shorten a Link Here"
                 />
-                <button type="button" id="btn-sendCode">Shorten It!</button>
+                <button type="button" id="btn-shorten">Shorten It!</button>
                 {% else %}
                 <input
                     type="email"

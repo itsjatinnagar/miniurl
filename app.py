@@ -1,5 +1,7 @@
-from controllers.database import insertUser, readUser
+from controllers.database import insertLink, insertUser, readUser, updateLink
+from controllers.helper import fetchTitle, generateHash
 from controllers.mailer import emailCode
+from datetime import datetime
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, session, redirect, url_for
 import os
@@ -62,3 +64,18 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
+@app.route('/shorten', methods=['POST'])
+def shorten():
+    long_url = request.json['long_url']
+    title = fetchTitle(long_url)
+    result = insertLink(session['userID'],title,long_url,datetime.utcnow().date())
+    if result is False:
+        return "Unsuccessful", 500
+    else:
+        updateDict = {'hash': generateHash(result)}
+        result = updateLink(result, updateDict)
+        if result is False:
+            return "Unsuccessful", 500
+        else:
+            return "Success", 200

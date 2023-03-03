@@ -59,3 +59,44 @@ def readUser(email):
     cursor.close()
     conn.close()
     return queryResult
+
+def insertLink(uid,title,long_url,epoch):
+    conn = connect()
+    if conn is None:
+        return False
+
+    cursor = conn.cursor()
+    query = 'INSERT INTO links (uid,title,long_url,creation_date) VALUES (%s, %s, %s, %s) RETURNING _id'
+    values = (uid, title, long_url, epoch,)
+    try:
+        cursor.execute(query, values)
+        conn.commit()
+    except (Exception, psycopg2.Error) as error:
+        logging.error(error)
+        conn.close()
+        return False
+
+    linkId = cursor.fetchone()[0]
+    cursor.close()
+    conn.close()
+    return linkId
+
+def updateLink(id, data):
+    conn = connect()
+    if conn is None:
+        return False
+    
+    cursor = conn.cursor()
+    query = 'UPDATE links SET {} = %s WHERE _id = {}'.format(', '.join(data.keys()), id)
+    values = tuple(data.values())
+    try:
+        cursor.execute(query,values)
+        conn.commit()
+    except (Exception, psycopg2.Error) as error:
+        logging.error(error)
+        conn.close()
+        return False
+
+    cursor.close()
+    conn.close()
+    return True
