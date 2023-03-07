@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 import logging
 import requests
 import string
@@ -16,10 +17,7 @@ def generateHash(num):
 def fetchTitle(url):
     try:
         response = requests.get(url)
-        if response.status_code == 200:
-            html = response.text
-            return html[html.find('<title>')+7 : html.find('</title>')]
-        else:
-            return url[8:]
+        soup = BeautifulSoup(response.content, 'html.parser')
+        return soup.title.string
     except requests.RequestException as error:
         logging.error(error)

@@ -1,4 +1,4 @@
-from controllers.database import insertLink, insertUser, readUser, updateLink
+from controllers.database import getLinks, insertLink, insertUser, readUser, updateLink
 from controllers.helper import fetchTitle, generateHash
 from controllers.mailer import emailCode
 from datetime import datetime
@@ -26,7 +26,8 @@ def index():
     if identifiers is None:
         return render_template('index.html')
     else:
-        return render_template('index.html', username = session['user_email'].split('@')[0])
+        data = getLinks(session['userID'])
+        return render_template('index.html', username = session['user_email'].split('@')[0], host=request.host_url, data = data)
 
 
 @app.route("/login", methods=['GET','POST'])

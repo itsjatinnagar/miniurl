@@ -72,6 +72,25 @@
             </form>
         </section>
         <main>
+            {% if username %}
+            <div class="links-wrapper container">
+                {% for record in data %}
+                <div class="link-card">
+                    <p class="long-url">{{ record[1] }}</p>
+                    <p class="short-url">{{ host+record[2] }}</p>
+                    <button
+                        class="btn-sidebar"
+                        data-record-id="{{ record[0] }}"
+                    >
+                        <img
+                            src="/static/images/icon-arrow.svg"
+                            alt="miniurl-icon-arrow"
+                        />
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             <div class="feature-header container">
                 <h2>Advanced Statistics</h2>
                 <p>

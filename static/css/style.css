@@ -150,7 +150,8 @@ section.form-wrapper {
 }
 
 main {
-    height: 700px;
+    padding-block: 50px;
+    min-height: 700px;
     display: flex;
     row-gap: 60px;
     flex-direction: column;
@@ -158,6 +159,51 @@ main {
     justify-content: center;
     text-align: center;
     background-color: var(--light-gray);
+}
+
+.links-wrapper {
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.link-card {
+    padding-block: 10px;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+    border-bottom: 1px solid #dadce0;
+}
+
+.link-card:first-of-type {
+    padding-block-start: 0;
+}
+
+.link-card:last-of-type {
+    padding-block-end: 0;
+    border-bottom: none;
+}
+
+.link-card p {
+    line-height: normal;
+}
+
+.link-card .long-url {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.link-card .short-url {
+    margin-left: auto;
+    color: var(--primary-color);
+}
+
+.link-card .btn-sidebar,
+.link-card .btn-sidebar img {
+    height: 25px;
+    width: auto;
+    cursor: pointer;
 }
 
 .feature-header,

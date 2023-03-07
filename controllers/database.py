@@ -100,3 +100,24 @@ def updateLink(id, data):
     cursor.close()
     conn.close()
     return True
+
+def getLinks(userId):
+    conn = connect()
+    if conn is None:
+        return False
+
+    cursor = conn.cursor()
+    query = 'SELECT _id,long_url,hash FROM links WHERE uid = %s ORDER BY creation_date DESC'
+    values = (userId,)
+    try:
+        cursor.execute(query,values)
+    except (Exception, psycopg2.Error) as error:
+        logging.error(error)
+        conn.close()
+        return False
+
+    queryResult = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+    return queryResult
