@@ -1,4 +1,4 @@
-from controllers.database import getLinks, insertLink, insertUser, readUser, updateLink
+from controllers.database import getLinks, insertLink, insertUser, readLink, readUser, updateLink
 from controllers.helper import fetchTitle, generateHash
 from controllers.mailer import emailCode
 from datetime import datetime
@@ -80,3 +80,11 @@ def shorten():
             return "Unsuccessful", 500
         else:
             return "Success", 200
+
+@app.route('/get/<int:linkId>')
+def getLinkInfo(linkId):
+    result = readLink(linkId)
+    if result is False:
+        return 'Unsuccessful', 500
+    else:
+        return render_template('sidebar.html', data=result, host=request.host_url), 200

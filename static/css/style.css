@@ -190,6 +190,7 @@ main {
 }
 
 .link-card .long-url {
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -291,7 +292,8 @@ footer .footer {
 }
 
 #overlay.active,
-.modal.active {
+.modal.active,
+.sidebar.active {
     display: initial;
 }
 
@@ -354,4 +356,59 @@ footer .footer {
     color: #ffffff;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.sidebar {
+    display: none;
+    padding: 30px 10px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 400px;
+    background-color: #ffffff;
+}
+
+.info .title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.info .header {
+    margin-block-start: 10px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--primary-color);
+}
+
+.info .long-link {
+    margin-block: 6px;
+    line-height: normal;
+    overflow-wrap: break-word;
+}
+
+.info .short-link {
+    line-height: normal;
+}
+
+.info .actions {
+    margin-block-start: 10px;
+}
+
+.info button img {
+    height: 20px;
+    width: auto;
+    vertical-align: middle;
+}
+
+.info button {
+    padding: 6px 10px;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.info button:hover {
+    background-color: hsla(180, 66%, 49%, 0.16);
 }

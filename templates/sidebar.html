@@ -1,0 +1,19 @@
+<section class="info">
+    <h3 class="title">{{ data[2] }}</h3>
+    <p class="header">
+        <span><b>Created On:</b> {{ data[5] }}</span>
+        <span><b>Total Clicks:</b> {{ data[6] }}</span>
+    </p>
+    <p class="long-link">{{ data[4] }}</p>
+    <p class="short-link">{{ host+data[3] }}</p>
+    <div class="actions">
+        <button class="btn-copy" id="btn-copy">
+            <img src="/static/images/icon-copy.svg" alt="miniurl-icon-copy" />
+            Copy
+        </button>
+        <button class="btn-qr">
+            <img src="/static/images/icon-qr.svg" alt="miniurl-icon-qr" /> View
+            QR
+        </button>
+    </div>
+</section>

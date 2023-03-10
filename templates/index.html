@@ -78,10 +78,7 @@
                 <div class="link-card">
                     <p class="long-url">{{ record[1] }}</p>
                     <p class="short-url">{{ host+record[2] }}</p>
-                    <button
-                        class="btn-sidebar"
-                        data-record-id="{{ record[0] }}"
-                    >
+                    <button class="btn-sidebar" data-linkid="{{ record[0] }}">
                         <img
                             src="/static/images/icon-arrow.svg"
                             alt="miniurl-icon-arrow"
@@ -159,7 +156,8 @@
         </footer>
 
         {% if username %}
-        <aside class="sidebar"></aside>
+        <div id="overlay"></div>
+        <aside class="sidebar" id="sidebar"></aside>
         {% else %}
         <div id="overlay"></div>
         <div id="modal" class="modal">
