@@ -391,10 +391,6 @@ footer .footer {
     line-height: normal;
 }
 
-.info .actions {
-    margin-block-start: 10px;
-}
-
 .info button img {
     height: 20px;
     width: auto;
@@ -402,6 +398,7 @@ footer .footer {
 }
 
 .info button {
+    margin-block-start: 10px;
     padding: 6px 10px;
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
@@ -411,4 +408,22 @@ footer .footer {
 
 .info button:hover {
     background-color: hsla(180, 66%, 49%, 0.16);
+}
+
+.info .qr-container {
+    margin-block-start: 10px;
+    text-align: center;
+}
+
+.info .qr-wrapper {
+    display: inline-block;
+    margin-block-start: 6px;
+    padding: 10px;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+}
+
+.info .qr-wrapper img {
+    height: 160px;
+    width: 160px;
 }
