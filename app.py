@@ -1,4 +1,4 @@
-from controllers.database import getLinks, insertLink, insertUser, readLink, readUser, updateLink
+from controllers.database import getLinks, insertLink, insertUser, readLink, readLongLink, readUser, updateLink
 from controllers.helper import fetchTitle, generateHash
 from controllers.mailer import emailCode
 from datetime import datetime
@@ -88,3 +88,11 @@ def getLinkInfo(linkId):
         return 'Unsuccessful', 500
     else:
         return render_template('sidebar.html', data=result, host=request.host_url), 200
+    
+@app.route('/<string:hash>')
+def returnOriginal(hash):
+    result = readLongLink(hash)
+    if result is False or result is None:
+        return redirect(url_for('index'))
+    else:
+        return redirect(result[0])

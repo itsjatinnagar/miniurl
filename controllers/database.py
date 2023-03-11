@@ -142,3 +142,24 @@ def readLink(linkId):
     cursor.close()
     conn.close()
     return queryResult
+
+def readLongLink(hash):
+    conn = connect()
+    if conn is None:
+        return False
+
+    cursor = conn.cursor()
+    query = 'SELECT long_url FROM links WHERE hash = %s'
+    values = (hash,)
+    try:
+        cursor.execute(query,values)
+    except (Exception, psycopg2.Error) as error:
+        logging.error(error)
+        conn.close()
+        return False
+
+    queryResult = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+    return queryResult
