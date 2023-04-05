@@ -20,165 +20,97 @@
     </head>
     <body>
         <header>
-            <nav class="container navbar">
+            <nav class="container">
                 <a href="{{ url_for('index') }}"
                     ><img src="/static/images/logo.svg" alt="miniurl-logo"
                 /></a>
-                {% if username %}
-                <div class="profile">
-                    <p>Hi, {{ username }}</p>
-                    <a href="/logout" class="btn-signOut">Sign out</a>
-                </div>
-                {% else %}
-                <button class="btn btn-signIn">Sign in</button>
-                {% endif %}
+                <ul class="links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                </ul>
             </nav>
             <section class="container hero">
-                <div class="hero-left">
-                    <h1 class="tagline">More than just shorter links</h1>
-                    <h3 class="description">
+                <div class="wrapper">
+                    <h1>More than just shorter links</h1>
+                    <p>
                         Build your brand's recognition and get detailed insights
                         on how your links are performing.
-                    </h3>
-                    <button class="btn btn-getStarted">Get Started</button>
-                </div>
-                <div class="hero-right">
-                    <img
-                        src="/static/images/illustration.svg"
-                        alt="miniurl-illustration"
-                    />
+                    </p>
+                    <button class="btn btn-primary">Get Started</button>
                 </div>
             </section>
         </header>
-        <section class="form-wrapper">
-            <form class="container form" id="form">
-                {% if username %}
-                <input
-                    type="url"
-                    name="url"
-                    id="url"
-                    placeholder="Shorten a Link Here"
-                />
-                <button type="button" id="btn-shorten">Shorten It!</button>
-                {% else %}
-                <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Enter Your Email Here"
-                />
-                <button type="button" id="btn-sendCode">Send Code</button>
-                {% endif %}
-            </form>
-        </section>
-        <main>
-            {% if username %}
-            <div class="links-wrapper container">
-                {% for record in data %}
-                <div class="link-card">
-                    <p class="long-url">{{ record[1] }}</p>
-                    <p class="short-url">{{ host+record[2] }}</p>
-                    <button class="btn-sidebar" data-linkid="{{ record[0] }}">
-                        <img
-                            src="/static/images/icon-arrow.svg"
-                            alt="miniurl-icon-arrow"
-                        />
-                    </button>
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-            <div class="feature-header container">
-                <h2>Advanced Statistics</h2>
+        <main class="features" id="features">
+            <div class="container">
+                <h2>What is <i>MiniUrl</i><span> ?</span></h2>
                 <p>
-                    Track how your links are performing across the web with our
-                    advanced statistics dashboard.
+                    MiniUrl is an all-in-one Link Management Platform for all
+                    your links and needs. It is an advanced URL Shortener with
+                    extensive Link Analytics. MiniUrl offers solutions that will
+                    allow you to manage your links, thanks to which you can
+                    develop your business while having your links under control.
+                    MiniUrl is also a platform for generating QR Codes, so you
+                    can combine offline and online solutions.
                 </p>
-            </div>
-            <div class="container features">
-                <div class="card">
-                    <div class="icon-wrapper">
-                        <img
-                            src="/static/images/icon-brand-recognition.svg"
-                            alt="miniurl-feature-brand-recognition"
-                        />
+
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="icon-wrapper">
+                            <img
+                                src="/static/images/link-shortener.svg"
+                                alt="miniurl-feature-url-shortener"
+                            />
+                        </div>
+                        <h3>URL Shortener</h3>
+                        <p>
+                            MiniUrl is a URL Shortener and Link Management
+                            Platform with a lot of features that will help you
+                            handle all your links in an intuitive way and reveal
+                            the potential of your links.
+                        </p>
                     </div>
-                    <h3>Brand Recognition</h3>
-                    <p>
-                        Boost your brand recognition with each click. Generic
-                        links don't mean a thing. Branded links help instil
-                        confidence in your content.
-                    </p>
-                </div>
-                <div class="card">
-                    <div class="icon-wrapper">
-                        <img
-                            src="/static/images/icon-detailed-records.svg"
-                            alt="miniurl-feature-detailed-records"
-                        />
+                    <div class="card">
+                        <div class="icon-wrapper">
+                            <img
+                                src="/static/images/analytics.svg"
+                                alt="miniurl-feature-link-analytics"
+                            />
+                        </div>
+                        <h3>Link analytics</h3>
+                        <p>
+                            MiniUrl is an advanced Link Analytics platform that
+                            tracks clicks on short links and measures the
+                            effectiveness of clicks. Extensive statistics of
+                            clicks on short links.
+                        </p>
                     </div>
-                    <h3>Detailed Records</h3>
-                    <p>
-                        Gain insights into who is clicking your links. Knowing
-                        when and where people engage with your content helps
-                        inform better decisions.
-                    </p>
-                </div>
-                <div class="card">
-                    <div class="icon-wrapper">
-                        <img
-                            src="/static/images/icon-fully-customizable.svg"
-                            alt="miniurl-feature-fully-customizable"
-                        />
+                    <div class="card">
+                        <div class="icon-wrapper">
+                            <img
+                                src="/static/images/qr_code.svg"
+                                alt="miniurl-feature-qr-code"
+                            />
+                        </div>
+                        <h3>QR Codes</h3>
+                        <p>
+                            Generate QR codes and customize them according to
+                            your style and manage their redirection so that QR
+                            codes reflect your brand and allow you to grow your
+                            business.
+                        </p>
                     </div>
-                    <h3>Fully Customizable</h3>
-                    <p>
-                        Improve brand awareness and content discoverability
-                        through customizable links, supercharging audience
-                        engagement.
-                    </p>
                 </div>
             </div>
         </main>
-        <footer>
-            <section class="container">
-                <h2>Boost your links today</h2>
-                <p>
-                    MiniUrl is a URL shortener and a great tool to easily manage
-                    short links - also short branded links - supporting the
-                    development of your brand and your business.
-                </p>
-                <button class="btn btn-getStarted">Get Started</button>
-            </section>
-            <div class="footer">
-                <p>&copy; 2023 MiniUrl</p>
+        <section class="pricing" id="pricing">
+            <div class="container card-lg">
+                <h2>Boost your links for free</h2>
+                <button class="btn btn-secondary">Get Started</button>
             </div>
+        </section>
+        <footer>
+            <p>&copy; 2023 MiniUrl</p>
         </footer>
-
-        {% if username %}
-        <div id="overlay"></div>
-        <aside class="sidebar" id="sidebar"></aside>
-        {% else %}
-        <div id="overlay"></div>
-        <div id="modal" class="modal">
-            <h3>Verify Email Address</h3>
-            <p>
-                <span>Please enter the OTP we've send to</span>
-                <span id="user-email">nagarjatin336@gmail.com</span>
-            </p>
-            <form>
-                <input
-                    type="text"
-                    name="otp"
-                    id="otp"
-                    placeholder="000000"
-                    autofocus
-                />
-                <button type="button" id="btn-verify" class="btn-verify">
-                    Verify and Sign In
-                </button>
-            </form>
-        </div>
-        {% endif %}
     </body>
 </html>
