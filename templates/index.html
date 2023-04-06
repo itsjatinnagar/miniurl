@@ -16,6 +16,7 @@
         {% else %}
         <script src="/static/js/login.js" defer></script>
         {% endif %} -->
+        <script src="/static/js/login.js" defer></script>
         <script src="/static/js/script.js" defer></script>
     </head>
     <body>
@@ -38,7 +39,9 @@
                         Build your brand's recognition and get detailed insights
                         on how your links are performing.
                     </p>
-                    <button class="btn btn-primary">Get Started</button>
+                    <button class="btn btn-primary btn-get-started">
+                        Get Started
+                    </button>
                 </div>
             </section>
         </header>
@@ -107,11 +110,80 @@
         <section class="pricing" id="pricing">
             <div class="container card-lg">
                 <h2>Boost your links for free</h2>
-                <button class="btn btn-secondary">Get Started</button>
+                <button class="btn btn-secondary btn-get-started">
+                    Get Started
+                </button>
             </div>
         </section>
         <footer>
             <p>&copy; 2023 MiniUrl</p>
         </footer>
+
+        <div class="overlay" id="overlay"></div>
+        <div class="modal" id="modal">
+            <h2>Get Started</h2>
+            <p>
+                Welcome to MiniUrl, please put your credentials below to start
+                using the app
+            </p>
+            <form class="login">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" name="email" id="email" required />
+                </div>
+                <button class="btn btn-send" id="btn-send-code" type="button">
+                    Send OTP
+                </button>
+                <hr />
+                <div class="input-group">
+                    <label for="otp">Enter your code</label>
+                    <div class="otp-input" id="otp-input">
+                        <input
+                            type="text"
+                            id="otp"
+                            inputmode="numeric"
+                            required
+                        />
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            disabled
+                            required
+                        />
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            disabled
+                            required
+                        />
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            disabled
+                            required
+                        />
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            disabled
+                            required
+                        />
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            disabled
+                            required
+                        />
+                    </div>
+                </div>
+                <button
+                    class="btn btn-primary btn-submit"
+                    id="btn-submit"
+                    type="button"
+                >
+                    Submit
+                </button>
+            </form>
+        </div>
     </body>
 </html>
