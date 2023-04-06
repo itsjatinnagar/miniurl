@@ -11,11 +11,11 @@
             type="image/x-icon"
         />
         <link rel="stylesheet" href="/static/css/style.css" />
-        {% if username %}
+        <!-- {% if username %}
         <script src="/static/js/shorten.js" defer></script>
         {% else %}
         <script src="/static/js/login.js" defer></script>
-        {% endif %}
+        {% endif %} -->
         <script src="/static/js/script.js" defer></script>
     </head>
     <body>
@@ -24,11 +24,12 @@
                 <a href="{{ url_for('index') }}"
                     ><img src="/static/images/logo.svg" alt="miniurl-logo"
                 /></a>
-                <ul class="links">
+                <ul class="links" id="menu">
                     <li><a href="{{ url_for('index') }}">Home</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#pricing">Pricing</a></li>
                 </ul>
+                <button id="btn-menu" data-action="open"></button>
             </nav>
             <section class="container hero">
                 <div class="wrapper">

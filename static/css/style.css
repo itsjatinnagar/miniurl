@@ -99,12 +99,28 @@ nav {
     justify-content: space-between;
 }
 
+button#btn-menu {
+    display: none;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    z-index: 11;
+}
+
+button#btn-menu[data-action="open"] {
+    background: url("/static/images/icon-menu.svg") no-repeat center/cover;
+}
+
+button#btn-menu[data-action="close"] {
+    background: url("/static/images/icon-close.svg") no-repeat center/cover;
+}
+
 ul.links {
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     column-gap: 20px;
+    z-index: 10;
 }
 
 ul.links a {
@@ -311,9 +327,25 @@ form.login hr {
 }
 
 @media screen and (max-width: 500px) {
+    button#btn-menu {
+        display: initial;
+    }
+
     ul.links {
+        padding: 60px 20px;
+        position: absolute;
+        top: 72px;
+        width: 96%;
+        background-color: rgba(0, 0, 0, 0.3);
         flex-direction: column;
-        justify-content: space-evenly;
+        row-gap: 20px;
+        transform: translateX(150%);
+        transition: transform 0.2s ease;
+        border-radius: 10px;
+    }
+
+    ul.links.active {
+        transform: translateX(0);
     }
 
     .hero h1 {
