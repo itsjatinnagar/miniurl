@@ -11,6 +11,7 @@ cursor.execute('DROP TABLE IF EXISTS users, links')
 cursor.execute('CREATE TABLE users('
                '_id SERIAL,'
                'email VARCHAR(320) UNIQUE NOT NULL,'
+               'code CHAR(6),'
                'PRIMARY KEY (_id)'
                ')')
 

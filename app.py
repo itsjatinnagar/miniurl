@@ -1,4 +1,5 @@
-from controllers.database import getLinks, insertLink, insertUser, readLink, readLongLink, readUser, updateLink
+import secrets
+from controllers.database import getLinks, insertLink, insertUser, readLink, readLongLink, readUserWithId, readUserWithMail, updateLink, updateUser
 from controllers.helper import fetchTitle, generateHash
 from controllers.mailer import emailCode
 from datetime import datetime
@@ -19,15 +20,21 @@ app.secret_key = os.environ['SESSION_KEY']
 @app.route("/")
 def index():
     try:
-        identifiers = session['userID']
+        identifiers = session['_id']
+        isAuthenticated = session['_w__c__A']
     except:
         identifiers = None
+        isAuthenticated = None
 
-    if identifiers is None:
+    if identifiers is None or isAuthenticated is None:
         return render_template('index.html')
     else:
-        data = getLinks(session['userID'])
-        return render_template('index.html', username = session['user_email'].split('@')[0], host=request.host_url, data = data)
+        data = getLinks(session['_id'])
+        result = readUserWithId(session['_id'])
+        if not result:
+            return render_template('index.html')
+        else:
+            return render_template('index.html', username = result[1].split('@')[0], host=request.host_url, data = data)
 
 
 @app.route("/login", methods=['GET','POST'])
@@ -36,30 +43,37 @@ def login():
         code = ''.join(random.choices(string.digits, k=OTP_LENGTH))
         isSent = emailCode(request.args['email'], code)
         if isSent:
-            session['user_email'] = request.args['email']
-            session['auth_code'] = code
-            return "Success", 200
-        else:
-            return "Unsuccessful", 500
-    else:
-        if session['auth_code'] == request.json['code']:
-            result = readUser(session['user_email'])
+            result = readUserWithMail(request.args['email'])
             if result is False:
                 return "Unsuccessful", 500
             elif result is None:
-                result = insertUser(session['user_email'])
+                result = insertUser(request.args['email'], code)
                 if result is False:
                     return "Unsuccessful", 500
                 else:
-                    session.pop('auth_code')
-                    session['userID'] = result
+                    session['_id'] = result
                     return "Success", 200
             else:
-                session.pop('auth_code')
-                session['userID'] = '1'
-                return "Success", 200
+                isUpdated = updateUser(result[0], code)
+                if isUpdated:
+                    session['_id'] = result[0]
+                    return "Success", 200
+                else:
+                    return "Unsuccessful", 500
         else:
-            return "Invalid Code", 401
+            return "Unsuccessful", 500
+    else:
+        result = readUserWithId(session['_id'])
+        if result is False:
+            return "Unsuccessful", 500
+        elif result is None:
+            return "Unauthorized", 401
+        else:
+            if result[2] == request.json['code']:
+                session['_w__c__A'] = secrets.token_hex(8)
+                return "Success", 200
+            else:
+                return "Invalid Code", 400
 
 @app.route('/logout')
 def logout():

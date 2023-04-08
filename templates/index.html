@@ -23,7 +23,10 @@
         <header>
             <nav class="container">
                 <a href="{{ url_for('index') }}"
-                    ><img src="/static/images/logo.svg" alt="miniurl-logo"
+                    ><img
+                        loading="eager"
+                        src="/static/images/logo.svg"
+                        alt="miniurl-logo"
                 /></a>
                 <ul class="links" id="menu">
                     <li><a href="{{ url_for('index') }}">Home</a></li>
@@ -62,6 +65,7 @@
                     <div class="card">
                         <div class="icon-wrapper">
                             <img
+                                loading="lazy"
                                 src="/static/images/link-shortener.svg"
                                 alt="miniurl-feature-url-shortener"
                             />
@@ -77,6 +81,7 @@
                     <div class="card">
                         <div class="icon-wrapper">
                             <img
+                                loading="lazy"
                                 src="/static/images/analytics.svg"
                                 alt="miniurl-feature-link-analytics"
                             />
@@ -92,6 +97,7 @@
                     <div class="card">
                         <div class="icon-wrapper">
                             <img
+                                loading="lazy"
                                 src="/static/images/qr_code.svg"
                                 alt="miniurl-feature-qr-code"
                             />

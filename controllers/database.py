@@ -17,14 +17,14 @@ def connect():
         logging.error(error)
 
 
-def insertUser(email):
+def insertUser(email, code):
     conn = connect()
     if conn is None:
         return False
 
     cursor = conn.cursor()
-    query = 'INSERT INTO users (email) VALUES (%s) RETURNING _id'
-    values = (email,)
+    query = 'INSERT INTO users (email,code) VALUES (%s,%s) RETURNING _id'
+    values = (email, code)
     try:
         cursor.execute(query, values)
         conn.commit()
@@ -39,13 +39,34 @@ def insertUser(email):
     return userId
 
 
-def readUser(email):
+def updateUser(id, code):
     conn = connect()
     if conn is None:
         return False
 
     cursor = conn.cursor()
-    query = 'SELECT _id FROM users WHERE email = %s'
+    query = 'UPDATE users SET code = %s WHERE _id = %s'
+    values = (code, id)
+    try:
+        cursor.execute(query, values)
+        conn.commit()
+    except (Exception, psycopg2.Error) as error:
+        logging.error(error)
+        conn.close()
+        return False
+
+    cursor.close()
+    conn.close()
+    return True
+
+
+def readUserWithMail(email):
+    conn = connect()
+    if conn is None:
+        return False
+
+    cursor = conn.cursor()
+    query = 'SELECT * FROM users WHERE email = %s'
     values = (email,)
     try:
         cursor.execute(query, values)
@@ -59,6 +80,29 @@ def readUser(email):
     cursor.close()
     conn.close()
     return queryResult
+
+
+def readUserWithId(id):
+    conn = connect()
+    if conn is None:
+        return False
+
+    cursor = conn.cursor()
+    query = 'SELECT * FROM users WHERE _id = %s'
+    values = (id,)
+    try:
+        cursor.execute(query, values)
+    except (Exception, psycopg2.Error) as error:
+        logging.error(error)
+        conn.close()
+        return False
+    
+    queryResult = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+    return queryResult
+
 
 def insertLink(uid,title,long_url,epoch):
     conn = connect()
@@ -81,6 +125,7 @@ def insertLink(uid,title,long_url,epoch):
     conn.close()
     return linkId
 
+
 def updateLink(id, data):
     conn = connect()
     if conn is None:
@@ -100,6 +145,7 @@ def updateLink(id, data):
     cursor.close()
     conn.close()
     return True
+
 
 def getLinks(userId):
     conn = connect()
@@ -122,6 +168,7 @@ def getLinks(userId):
     conn.close()
     return queryResult
 
+
 def readLink(linkId):
     conn = connect()
     if conn is None:
@@ -142,6 +189,7 @@ def readLink(linkId):
     cursor.close()
     conn.close()
     return queryResult
+
 
 def readLongLink(hash):
     conn = connect()
