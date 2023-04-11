@@ -7,7 +7,7 @@ const request = (uri, method, headers, body) =>
         });
         if (response.status === 200) resolved(true);
         else if (response.status === 500) showPopup();
-        else resolved(false, response.status, response.body());
+        else resolved(false, response.status, await response.text());
     });
 
 function showPopup() {
