@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MiniUrl</title>
+        <link
+            rel="shortcut icon"
+            href="/static/images/favicon.ico"
+            type="image/x-icon"
+        />
+        <link rel="stylesheet" href="/static/css/style.css" />
+        {% block scripts %} {% endblock %}
+    </head>
+    <body>
+        <header>
+            <nav class="container">
+                <a href="{{ url_for('index') }}"
+                    ><img
+                        loading="eager"
+                        src="/static/images/logo.svg"
+                        alt="miniurl-logo"
+                /></a>
+                {% block menu %} {% endblock %}
+                <button id="btn-menu" data-action="open"></button>
+            </nav>
+            <section class="container hero">
+                <div class="wrapper">
+                    <h1>More than just shorter links</h1>
+                    <p>
+                        Build your brand's recognition and get detailed insights
+                        on how your links are performing.
+                    </p>
+                    {% block callToAction %} {% endblock %}
+                </div>
+            </section>
+        </header>
+        {% block main %} {% endblock %}
+        <footer>
+            <p>&copy; 2023 MiniUrl</p>
+        </footer>
+        {% block overlay %} {% endblock %}
+    </body>
+</html>

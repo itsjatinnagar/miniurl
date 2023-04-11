@@ -34,7 +34,7 @@ def index():
         if not result:
             return render_template('index.html')
         else:
-            return render_template('index.html', username = result[1].split('@')[0], host=request.host_url, data = data)
+            return render_template('user.html', username = result[1].split('@')[0], host=request.host_url, data = data)
 
 
 @app.route("/login", methods=['GET','POST'])

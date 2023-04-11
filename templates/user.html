@@ -1,0 +1,13 @@
+{% extends "layout.html" %} {% block scripts %}
+<script src="/static/js/script.js" defer></script>
+{% endblock %} {% block menu %}
+<ul class="links" id="menu">
+    <li><a href="{{ url_for('index') }}">Home</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <div class="profile">
+        <p>Hi, <span>{{ username }}</span></p>
+        <a href="/logout" class="btn btn-logout">Log Out</a>
+    </div>
+</ul>
+{% endblock %}
