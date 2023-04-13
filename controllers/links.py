@@ -51,7 +51,7 @@ def getLinks(userId):
         return False
 
     cursor = conn.cursor()
-    query = 'SELECT _id,long_url,hash FROM links WHERE uid = %s ORDER BY creation_date DESC'
+    query = 'SELECT * FROM links WHERE uid = %s ORDER BY creation_date DESC'
     values = (userId,)
     try:
         cursor.execute(query,values)

@@ -6,12 +6,12 @@ const request = (uri, method, headers, body) =>
             body: body,
         });
         if (response.status === 200) resolved(true);
-        else if (response.status === 500) showPopup();
+        else if (response.status === 500) showPopup(await response.text());
         else resolved(false, response.status, await response.text());
     });
 
-function showPopup() {
-    console.log("Popup to show error message is appeared");
+function showPopup(message) {
+    console.log(`Popup to show error ${message} is appeared`);
 }
 
 const openMenu = () => {

@@ -56,5 +56,5 @@ Assuming 117K new URLs per month and 100:1 read-write ratio.
     | `hash` | varchar(16) |
     | `title` | varchar(925) |
     | `long_url` | varchar(2048) |
-    | `creation_date` | varchar(7) |
+    | `creation_date` | varchar(10) |
     | `clicks` | integer |

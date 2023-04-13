@@ -1,12 +1,13 @@
-import random
-from bs4 import BeautifulSoup
 import logging
+import random
 import requests
 import string
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse
 
 from controllers.database import checkHash
 
-CHARACTERS = string.ascii_letters + string.digits
+CHARACTERS = random.sample(string.ascii_letters+string.digits, 62)
 
 def generateHash(num):
     while True:
@@ -21,8 +22,13 @@ def generateHash(num):
 
 def fetchTitle(url):
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers={"user-agent": "Mozilla/5.0 (Linux; Android 12; Pixel 6 Build/SD1A.210817.023; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/94.0.4606.71 Mobile Safari/537.36"})
         soup = BeautifulSoup(response.content, 'html.parser')
-        return soup.title.string
+        element = soup.find('title')
+        if element is None or element.string is None:
+            title = urlparse(url).netloc
+        else:
+            title = element.string
+        return title
     except requests.RequestException as error:
         logging.error(error)

@@ -35,10 +35,10 @@ def index():
     else:
         data = getLinks(session['_id'])
         result = readUserWithId(session['_id'])
-        if not result or not data:
-            return render_template('index.html'), 500
-        else:
+        if result and data is not False:
             return render_template('user.html', username = result[1].split('@')[0], host=request.host_url, data = data)
+        else:
+            return render_template('index.html', result = result, data = data), 500
 
 
 @app.route("/login", methods=['GET','POST'])
@@ -91,12 +91,12 @@ def shorten():
     long_url = request.json['long_url']
     title = fetchTitle(long_url)
     hash = generateHash(HASH_LENGTH)
-    if result is False or title is None:
-        return "Unsuccessful", 500
+    if hash is False or title is None:
+        return f"{hash} or {title}", 500
     else:
-        result = insertLink(session['userID'],title,hash,long_url,datetime.utcnow().date())
+        result = insertLink(session['_id'],title,hash,long_url,datetime.utcnow().strftime('%s'))
         if result is False:
-            return "Unsuccessful", 500
+            return "Insert", 500
         else:
             return "Success", 200
 
