@@ -1,18 +1,23 @@
+import random
 from bs4 import BeautifulSoup
 import logging
 import requests
 import string
 
-ELEMENTS = string.ascii_letters+string.digits[1:]
+from controllers.database import checkHash
+
+CHARACTERS = string.ascii_letters + string.digits
 
 def generateHash(num):
-    hash = str()
-    while num != 0:
-        hash += ELEMENTS[num%len(ELEMENTS)]
-        num //= len(ELEMENTS)
-    while len(hash) != 4:
-        hash += '0'
+    while True:
+        hash = ''.join(random.choices(CHARACTERS,k=num))
+        isPresent = checkHash(hash)
+        if isPresent:
+            break
+        elif isPresent is None:
+            return False
     return hash
+
 
 def fetchTitle(url):
     try:

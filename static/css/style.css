@@ -171,6 +171,39 @@ section.hero .wrapper {
     font-weight: 500;
 }
 
+form.shorten {
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 20px;
+}
+
+form.shorten .input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 20px;
+}
+
+form.shorten .input-group[data-error] {
+    padding-bottom: 18px;
+}
+
+form.shorten #shorten {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+form.shorten #shorten[data-error]::placeholder {
+    color: var(--theme-error-color);
+}
+
+form.shorten .btn-shorten {
+    padding: 8px 20px;
+    border-radius: 10px;
+}
+
 main.features {
     padding-block: 60px;
     background-color: var(--light-gray);
@@ -315,7 +348,8 @@ form.login input {
     border-radius: 10px;
 }
 
-form.login .input-group::after {
+form.login .input-group::after,
+form.shorten .input-group::after {
     content: attr(data-error);
     position: absolute;
     bottom: 0;
@@ -407,5 +441,9 @@ form.login hr {
 
     .hero h1 {
         font-size: 52px;
+    }
+
+    form.shorten .btn-shorten {
+        width: 100%;
     }
 }

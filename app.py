@@ -1,15 +1,19 @@
-import secrets
-from controllers.database import getLinks, insertLink, insertUser, readLink, readLongLink, readUserWithId, readUserWithMail, updateLink, updateUser
-from controllers.helper import fetchTitle, generateHash
-from controllers.mailer import emailCode
-from datetime import datetime
-from dotenv import load_dotenv
-from flask import Flask, render_template, request, session, redirect, url_for
 import os
 import random
-import string
+import secrets
+from datetime import datetime
+from dotenv import load_dotenv
+from string import digits
+from flask import Flask, redirect, render_template, request, session, url_for
+
+from controllers.helper import fetchTitle, generateHash
+from controllers.links import getLinks, insertLink, readLongLink
+from controllers.mailer import emailCode
+from controllers.user import insertUser, readUserWithId, readUserWithMail, updateUser
+
 
 OTP_LENGTH = 6
+HASH_LENGTH = 4
 load_dotenv()
 
 
@@ -31,8 +35,8 @@ def index():
     else:
         data = getLinks(session['_id'])
         result = readUserWithId(session['_id'])
-        if not result:
-            return render_template('index.html')
+        if not result or not data:
+            return render_template('index.html'), 500
         else:
             return render_template('user.html', username = result[1].split('@')[0], host=request.host_url, data = data)
 
@@ -40,7 +44,7 @@ def index():
 @app.route("/login", methods=['GET','POST'])
 def login():
     if request.method == 'GET':
-        code = ''.join(random.choices(string.digits, k=OTP_LENGTH))
+        code = ''.join(random.choices(digits, k=OTP_LENGTH))
         isSent = emailCode(request.args['email'], code)
         if isSent:
             result = readUserWithMail(request.args['email'])
@@ -51,7 +55,7 @@ def login():
                 if result is False:
                     return "Unsuccessful", 500
                 else:
-                    session['_id'] = result
+                    session['_id'] = result[0]
                     return "Success", 200
             else:
                 isUpdated = updateUser(result[0], code)
@@ -75,38 +79,32 @@ def login():
             else:
                 return "Invalid Code", 400
 
+
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
 
+
 @app.route('/shorten', methods=['POST'])
 def shorten():
     long_url = request.json['long_url']
     title = fetchTitle(long_url)
-    result = insertLink(session['userID'],title,long_url,datetime.utcnow().date())
-    if result is False:
+    hash = generateHash(HASH_LENGTH)
+    if result is False or title is None:
         return "Unsuccessful", 500
     else:
-        updateDict = {'hash': generateHash(result)}
-        result = updateLink(result, updateDict)
+        result = insertLink(session['userID'],title,hash,long_url,datetime.utcnow().date())
         if result is False:
             return "Unsuccessful", 500
         else:
             return "Success", 200
 
-@app.route('/get/<int:linkId>')
-def getLinkInfo(linkId):
-    result = readLink(linkId)
-    if result is False:
-        return 'Unsuccessful', 500
-    else:
-        return render_template('sidebar.html', data=result, host=request.host_url), 200
-    
+
 @app.route('/<string:hash>')
 def returnOriginal(hash):
     result = readLongLink(hash)
     if result is False or result is None:
-        return redirect(url_for('index'))
+        return redirect(location=url_for('index'),code=500)
     else:
         return redirect(result[0])

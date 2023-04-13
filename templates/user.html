@@ -1,4 +1,5 @@
 {% extends "layout.html" %} {% block scripts %}
+<script src="/static/js/shorten.js" defer></script>
 <script src="/static/js/script.js" defer></script>
 {% endblock %} {% block menu %}
 <ul class="links" id="menu">
@@ -10,4 +11,21 @@
         <a href="/logout" class="btn btn-logout">Log Out</a>
     </div>
 </ul>
+{% endblock %} {% block callToAction %}
+<form class="shorten">
+    <div class="input-group">
+        <input
+            type="url"
+            name="shorten"
+            id="shorten"
+            placeholder="Shorten your link"
+            required
+        />
+        <button class="btn btn-primary btn-shorten" id="btn-shorten">
+            Shorten It!
+        </button>
+    </div>
+</form>
+{% endblock %} {% block main %}
+<main>{{ data }}</main>
 {% endblock %}

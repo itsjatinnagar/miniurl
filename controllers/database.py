@@ -17,147 +17,17 @@ def connect():
         logging.error(error)
 
 
-def insertUser(email, code):
+def checkHash(hash):
     conn = connect()
     if conn is None:
         return False
 
     cursor = conn.cursor()
-    query = 'INSERT INTO users (email,code) VALUES (%s,%s) RETURNING _id'
-    values = (email, code)
-    try:
-        cursor.execute(query, values)
-        conn.commit()
-    except (Exception, psycopg2.Error) as error:
-        logging.error(error)
-        conn.close()
-        return False
-
-    userId = cursor.fetchone()[0]
-    cursor.close()
-    conn.close()
-    return userId
-
-
-def updateUser(id, code):
-    conn = connect()
-    if conn is None:
-        return False
-
-    cursor = conn.cursor()
-    query = 'UPDATE users SET code = %s WHERE _id = %s'
-    values = (code, id)
-    try:
-        cursor.execute(query, values)
-        conn.commit()
-    except (Exception, psycopg2.Error) as error:
-        logging.error(error)
-        conn.close()
-        return False
-
-    cursor.close()
-    conn.close()
-    return True
-
-
-def readUserWithMail(email):
-    conn = connect()
-    if conn is None:
-        return False
-
-    cursor = conn.cursor()
-    query = 'SELECT * FROM users WHERE email = %s'
-    values = (email,)
-    try:
-        cursor.execute(query, values)
-    except (Exception, psycopg2.Error) as error:
-        logging.error(error)
-        conn.close()
-        return False
-
-    queryResult = cursor.fetchone()
-
-    cursor.close()
-    conn.close()
-    return queryResult
-
-
-def readUserWithId(id):
-    conn = connect()
-    if conn is None:
-        return False
-
-    cursor = conn.cursor()
-    query = 'SELECT * FROM users WHERE _id = %s'
-    values = (id,)
-    try:
-        cursor.execute(query, values)
-    except (Exception, psycopg2.Error) as error:
-        logging.error(error)
-        conn.close()
-        return False
-    
-    queryResult = cursor.fetchone()
-
-    cursor.close()
-    conn.close()
-    return queryResult
-
-
-def insertLink(uid,title,long_url,epoch):
-    conn = connect()
-    if conn is None:
-        return False
-
-    cursor = conn.cursor()
-    query = 'INSERT INTO links (uid,title,long_url,creation_date) VALUES (%s, %s, %s, %s) RETURNING _id'
-    values = (uid, title, long_url, epoch,)
-    try:
-        cursor.execute(query, values)
-        conn.commit()
-    except (Exception, psycopg2.Error) as error:
-        logging.error(error)
-        conn.close()
-        return False
-
-    linkId = cursor.fetchone()[0]
-    cursor.close()
-    conn.close()
-    return linkId
-
-
-def updateLink(id, data):
-    conn = connect()
-    if conn is None:
-        return False
-    
-    cursor = conn.cursor()
-    query = 'UPDATE links SET {} = %s WHERE _id = {}'.format(', '.join(data.keys()), id)
-    values = tuple(data.values())
+    query = 'SELECT * FROM links WHERE hash = %s'
+    values = (hash,)
     try:
         cursor.execute(query,values)
-        conn.commit()
-    except (Exception, psycopg2.Error) as error:
-        logging.error(error)
-        conn.close()
-        return False
-
-    cursor.close()
-    conn.close()
-    return True
-
-
-def getLinks(userId):
-    conn = connect()
-    if conn is None:
-        return False
-
-    cursor = conn.cursor()
-    query = 'SELECT _id,long_url,hash FROM links WHERE uid = %s ORDER BY creation_date DESC'
-    values = (userId,)
-    try:
-        cursor.execute(query,values)
-    except (Exception, psycopg2.Error) as error:
+    except (Exception, psycopg2.Error) as error: 
         logging.error(error)
         conn.close()
         return False
@@ -166,48 +36,4 @@ def getLinks(userId):
 
     cursor.close()
     conn.close()
-    return queryResult
-
-
-def readLink(linkId):
-    conn = connect()
-    if conn is None:
-        return False
-
-    cursor = conn.cursor()
-    query = 'SELECT * FROM links WHERE _id = %s'
-    values = (linkId,)
-    try:
-        cursor.execute(query,values)
-    except (Exception, psycopg2.Error) as error:
-        logging.error(error)
-        conn.close()
-        return False
-
-    queryResult = cursor.fetchone()
-
-    cursor.close()
-    conn.close()
-    return queryResult
-
-
-def readLongLink(hash):
-    conn = connect()
-    if conn is None:
-        return False
-
-    cursor = conn.cursor()
-    query = 'SELECT long_url FROM links WHERE hash = %s'
-    values = (hash,)
-    try:
-        cursor.execute(query,values)
-    except (Exception, psycopg2.Error) as error:
-        logging.error(error)
-        conn.close()
-        return False
-
-    queryResult = cursor.fetchone()
-
-    cursor.close()
-    conn.close()
-    return queryResult
+    return True if len(queryResult) == 0 else None

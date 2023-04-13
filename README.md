@@ -46,10 +46,13 @@ Assuming 117K new URLs per month and 100:1 read-write ratio.
     | ------ | ---- |
     | `_id` | integer |
     | `email` | varchar(320) |
+    | `code` | char(6) |
 
 -   URL
     | Column | Type |
     | ------ | ---- |
+    | `_id` | integer |
+    | `uid` | integer |
     | `hash` | varchar(16) |
     | `title` | varchar(925) |
     | `long_url` | varchar(2048) |
