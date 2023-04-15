@@ -28,7 +28,7 @@ def fetchTitle(url):
         if element is None or element.string is None:
             title = urlparse(url).netloc
         else:
-            title = element.string
+            title = element.string.strip()
         return title
     except requests.RequestException as error:
         logging.error(error)

@@ -95,7 +95,7 @@ def readLongLink(hash):
         return False
 
     cursor = conn.cursor()
-    query = 'SELECT long_url FROM links WHERE hash = %s'
+    query = 'SELECT _id,long_url,click FROM links WHERE hash = %s'
     values = (hash,)
     try:
         cursor.execute(query,values)

@@ -7,7 +7,7 @@ from string import digits
 from flask import Flask, redirect, render_template, request, session, url_for
 
 from controllers.helper import fetchTitle, generateHash
-from controllers.links import getLinks, insertLink, readLongLink
+from controllers.links import getLinks, insertLink, readLongLink, updateLink
 from controllers.mailer import emailCode
 from controllers.user import insertUser, readUserWithId, readUserWithMail, updateUser
 
@@ -107,4 +107,8 @@ def returnOriginal(hash):
     if result is False or result is None:
         return redirect(location=url_for('index'),code=500)
     else:
-        return redirect(result[0])
+        isUpdated = updateLink(result[0], {'click': int(result[2]) + 1})
+        if isUpdated:
+            return redirect(result[1])
+        else:
+            return redirect(location=url_for('index'),code=500)
