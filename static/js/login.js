@@ -14,8 +14,12 @@ const sendCodeButton = document.getElementById("btn-send-code"),
     emailInput = document.getElementById("email");
 
 sendCodeButton.addEventListener("click", async () => {
+    sendCodeButton.innerHTML = '<span class="loader"></span>';
     const response = await request(`/login?email=${emailInput.value}`, "GET");
-    if (response) document.getElementById("modal").classList.add("code-sent");
+    if (response) {
+        sendCodeButton.innerHTML = "Resend OTP";
+        document.getElementById("modal").classList.add("code-sent");
+    }
 });
 
 const submitButton = document.getElementById("btn-submit"),

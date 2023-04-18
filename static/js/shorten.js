@@ -2,6 +2,7 @@ const shortenButton = document.getElementById("btn-shorten"),
     shortenInput = document.getElementById("shorten");
 
 shortenButton.addEventListener("click", async () => {
+    shortenButton.innerHTML = '<span class="loader light"></span>';
     const response = await request(
         "/shorten",
         "POST",
@@ -9,6 +10,7 @@ shortenButton.addEventListener("click", async () => {
         JSON.stringify({ long_url: shortenInput.value })
     );
     if (response) {
+        shortenButton.innerHTML = "Shorten It!";
         window.location.reload();
     }
 });

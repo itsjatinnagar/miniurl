@@ -14,32 +14,34 @@
         {% block scripts %} {% endblock %}
     </head>
     <body>
-        <header>
-            <nav class="container">
-                <a href="{{ url_for('index') }}"
-                    ><img
-                        loading="eager"
-                        src="/static/images/logo.svg"
-                        alt="miniurl-logo"
-                /></a>
-                {% block menu %} {% endblock %}
-                <button id="btn-menu" data-action="open"></button>
-            </nav>
-            <section class="container hero">
-                <div class="wrapper">
-                    <h1>More than just shorter links</h1>
-                    <p>
-                        Build your brand's recognition and get detailed insights
-                        on how your links are performing.
-                    </p>
-                    {% block callToAction %} {% endblock %}
-                </div>
-            </section>
-        </header>
-        {% block main %} {% endblock %}
-        <footer>
-            <p>&copy; 2023 MiniUrl</p>
-        </footer>
-        {% block overlay %} {% endblock %}
+        <div id="root">
+            <header>
+                <nav class="container">
+                    <a href="{{ url_for('index') }}"
+                        ><img
+                            loading="eager"
+                            src="/static/images/logo.svg"
+                            alt="miniurl-logo"
+                    /></a>
+                    {% block menu %} {% endblock %}
+                    <button id="btn-menu" data-action="open"></button>
+                </nav>
+                <section class="container hero">
+                    <div class="wrapper">
+                        <h1>More than just shorter links</h1>
+                        <p>
+                            Build your brand's recognition and get detailed
+                            insights on how your links are performing.
+                        </p>
+                        {% block callToAction %} {% endblock %}
+                    </div>
+                </section>
+            </header>
+            {% block main %} {% endblock %}
+            <footer>
+                <p>&copy; 2023 MiniUrl</p>
+            </footer>
+            {% block overlay %} {% endblock %}
+        </div>
     </body>
 </html>
