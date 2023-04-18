@@ -31,5 +31,30 @@
     </div>
 </form>
 {% endblock %} {% block main %}
-<main>{{ data }}</main>
+<main>
+    <div class="container shorten">
+        {% for record in data %}
+        <div class="card" data-id="{{ record[0] }}">
+            <div class="header">
+                <h2>{{ record[2] }}</h2>
+                <p><span class="date">{{ record[5] }}</span></p>
+            </div>
+            <hr />
+            <p>{{ record[4] }}</p>
+            <a href="{{ host+record[3] }}">{{ host+record[3] }}</a>
+            <div class="footer">
+                <div class="actions">
+                    <button
+                        class="btn btn-primary btn-copy"
+                        data-link="{{ host+record[3] }}"
+                    >
+                        Copy
+                    </button>
+                </div>
+                <div>Total Clicks: {{ record[6] }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
 {% endblock %}

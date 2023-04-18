@@ -6,6 +6,7 @@
     --primary-color: hsl(var(--primary-hue), 90%, 39%);
     --accent-color: hsl(257, 27%, 26%);
     --light-gray: hsl(257, 2%, 97%);
+    --border-color: 114, 115, 126;
     --theme-error-color: hsl(354, 70%, 54%);
     --theme-success-color: hsl(152, 69%, 31%);
 }
@@ -50,6 +51,12 @@ body {
 
 body.modal-active {
     overflow: hidden;
+}
+
+hr {
+    height: 1px;
+    width: 100%;
+    background-color: rgb(var(--border-color));
 }
 
 .container {
@@ -204,10 +211,14 @@ form.shorten .btn-shorten {
     border-radius: 10px;
 }
 
-main.features {
-    padding-block: 60px;
+main {
+    padding-block-start: 60px;
     background-color: var(--light-gray);
     text-align: center;
+}
+
+main.features {
+    padding-block: 60px;
 }
 
 .features h2 span {
@@ -255,6 +266,52 @@ main.features {
     margin-block: 20px 8px;
     font-size: 20px;
     font-weight: 600;
+}
+
+.shorten {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.shorten .card {
+    text-align: left;
+    padding: 10px 20px;
+    border: 1px solid rgba(var(--border-color), 0.3);
+    border-radius: 10px;
+}
+
+.shorten .card > a {
+    color: var(--primary-color);
+}
+
+.shorten .card > hr {
+    margin: 8px 0;
+}
+
+.shorten .card .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.shorten .card .header p {
+    padding: 4px;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+}
+
+.shorten .card .footer {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.shorten .card .actions .btn {
+    padding: 7px 16px;
+    border-radius: 10px;
 }
 
 section.pricing {
@@ -391,9 +448,6 @@ form.login button {
 
 form.login hr {
     margin: 16px 0;
-    height: 1px;
-    width: 100%;
-    background-color: #73747f;
 }
 
 @media screen and (max-width: 990px) {
