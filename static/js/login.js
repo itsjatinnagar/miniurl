@@ -69,5 +69,7 @@ submitButton.addEventListener("click", async () => {
 
     if (response) {
         window.location.reload();
+    } else {
+        document.querySelector("div.otp-group").dataset.error = "Invalid Code";
     }
 });

@@ -1,11 +1,6 @@
-from dotenv import load_dotenv
 from email.message import EmailMessage
 import os
-import logging
 import smtplib
-
-
-load_dotenv()
 
 
 def emailCode(userEmail, code):
@@ -30,10 +25,5 @@ def emailCode(userEmail, code):
     </html>
     """, subtype='html')
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        try:
-            smtp.login(email, password)
-            smtp.send_message(message)
-        except smtplib.SMTPException as error:
-            logging.error(error)
-            return False
-    return True
+        smtp.login(email, password)
+        smtp.send_message(message)
