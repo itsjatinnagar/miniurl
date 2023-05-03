@@ -1,118 +1,128 @@
-{% extends "layout.html" %} {% block scripts %}
-<script src="/static/js/login.js" defer></script>
+{% extends "layout.html" %} {% block stylesheets %}
+<link rel="stylesheet" href="/static/css/style.css" />
+<link rel="stylesheet" href="/static/css/index.css" />
+{% endblock %} {% block scripts %}
 <script src="/static/js/script.js" defer></script>
+<script src="/static/js/index.js" defer></script>
 {% endblock %} {% block menu %}
-<ul class="links" id="menu">
-    <li><a href="{{ url_for('index') }}">Home</a></li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-</ul>
+<button type="button" class="btn btn-primary btn-modal">Login/signup</button>
 {% endblock %} {% block callToAction %}
-<button class="btn btn-primary btn-get-started">Get Started</button>
+<button class="btn btn-primary btn-modal">Get Started</button>
 {% endblock %} {% block main %}
 <main class="features" id="features">
-    <div class="container">
-        <h2>What is <i>MiniUrl</i><span> ?</span></h2>
-        <p>
-            MiniUrl is an all-in-one Link Management Platform for all your links
-            and needs. It is an advanced URL Shortener with extensive Link
-            Analytics. MiniUrl offers solutions that will allow you to manage
-            your links, thanks to which you can develop your business while
-            having your links under control. MiniUrl is also a platform for
-            generating QR Codes, so you can combine offline and online
-            solutions.
-        </p>
-
-        <div class="card-wrapper">
-            <div class="card">
-                <div class="icon-wrapper">
-                    <img
-                        loading="lazy"
-                        src="/static/images/link-shortener.svg"
-                        alt="miniurl-feature-url-shortener"
-                    />
-                </div>
-                <h3>URL Shortener</h3>
-                <p>
-                    MiniUrl is a URL Shortener and Link Management Platform with
-                    a lot of features that will help you handle all your links
-                    in an intuitive way and reveal the potential of your links.
-                </p>
-            </div>
-            <div class="card">
-                <div class="icon-wrapper">
-                    <img
-                        loading="lazy"
-                        src="/static/images/analytics.svg"
-                        alt="miniurl-feature-link-analytics"
-                    />
-                </div>
-                <h3>Link analytics</h3>
-                <p>
-                    MiniUrl is an advanced Link Analytics platform that tracks
-                    clicks on short links and measures the effectiveness of
-                    clicks. Extensive statistics of clicks on short links.
-                </p>
-            </div>
-            <div class="card">
-                <div class="icon-wrapper">
-                    <img
-                        loading="lazy"
-                        src="/static/images/qr_code.svg"
-                        alt="miniurl-feature-qr-code"
-                    />
-                </div>
-                <h3>QR Codes</h3>
-                <p>
-                    Generate QR codes and customize them according to your style
-                    and manage their redirection so that QR codes reflect your
-                    brand and allow you to grow your business.
-                </p>
-            </div>
+  <div class="container">
+    <h2>What is <i>MiniUrl</i><span> ?</span></h2>
+    <p>
+      MiniUrl is an all-in-one Link Management Platform for all your links and
+      needs. It is an advanced URL Shortener with extensive Link Analytics.
+      MiniUrl offers solutions that will allow you to manage your links, thanks
+      to which you can develop your business while having your links under
+      control. MiniUrl is also a platform for generating QR Codes, so you can
+      combine offline and online solutions.
+    </p>
+    <section class="f-cards">
+      <div class="card">
+        <div class="card-topleft">
+          <h3>URL Shortener</h3>
         </div>
-    </div>
+        <div class="card-topright">
+          <div class="flex icon">
+            <img
+              loading="lazy"
+              src="/static/images/link-shortener.svg"
+              alt="miniurl features link Shortener"
+            />
+          </div>
+        </div>
+        <div class="card-content">
+          <p>
+            MiniUrl is a URL Shortener and Link Management Platform with a lot
+            of features that will help you handle all your links in an intuitive
+            way and reveal the potential of your links.
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-topleft">
+          <h3>Link Analytics</h3>
+        </div>
+        <div class="card-topright">
+          <div class="flex icon">
+            <img
+              loading="lazy"
+              src="/static/images/analytics.svg"
+              alt="miniurl features link analytics"
+            />
+          </div>
+        </div>
+        <div class="card-content">
+          <p>
+            MiniUrl is an advanced Link Analytics platform that tracks clicks on
+            short links and measures the effectiveness of clicks. Extensive
+            statistics of clicks on short links.
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-topleft">
+          <h3>QR Codes</h3>
+        </div>
+        <div class="card-topright">
+          <div class="flex icon">
+            <img
+              loading="lazy"
+              src="/static/images/qr_code.svg"
+              alt="miniurl features qr codes"
+            />
+          </div>
+        </div>
+        <div class="card-content">
+          <p>
+            Generate QR codes and customize them according to your style and
+            manage their redirection so that QR codes reflect your brand and
+            allow you to grow your business.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
 </main>
-<section class="pricing" id="pricing">
-    <div class="container card-lg">
-        <h2>Boost your links for free</h2>
-        <button class="btn btn-secondary btn-get-started">Get Started</button>
-    </div>
+<section class="container flex pricing" id="pricing">
+  <h2>Boost your links for free</h2>
+  <button class="btn btn-primary btn-modal">Get Started</button>
 </section>
 {% endblock %} {% block overlay %}
 <div class="overlay" id="overlay"></div>
-<div class="modal" id="modal">
-    <h2>Get Started</h2>
-    <p>
-        Welcome to MiniUrl, please put your credentials below to start using the
-        app
-    </p>
-    <form class="login">
-        <div class="input-group">
-            <label for="email">Email Address</label>
-            <input type="email" name="email" id="email" required />
-        </div>
-        <button class="btn btn-send" id="btn-send-code" type="button">
-            Send OTP
-        </button>
-        <hr />
-        <div class="input-group otp-group">
-            <label for="otp">Enter your code</label>
-            <div class="otp-input" id="otp-input">
-                <input type="text" id="otp" inputmode="numeric" required />
-                <input type="text" inputmode="numeric" disabled required />
-                <input type="text" inputmode="numeric" disabled required />
-                <input type="text" inputmode="numeric" disabled required />
-                <input type="text" inputmode="numeric" disabled required />
-                <input type="text" inputmode="numeric" disabled required />
-            </div>
-        </div>
-        <button
-            class="btn btn-primary btn-submit"
-            id="btn-submit"
-            type="button"
-        >
-            Submit
-        </button>
-    </form>
+<div class="modal">
+  <h2>Get Started</h2>
+  <p>
+    Welcome to MiniUrl! To verify, we will send you a 6-digit code to your
+    entered email address
+  </p>
+  <form class="login">
+    <input
+      type="email"
+      name="email"
+      id="email"
+      placeholder="Email Address"
+      required
+    />
+    <button class="btn-primary btn-login" id="btn-login">Send Code</button>
+  </form>
+  <hr />
+  <p class="resend-message">
+    Didn't get the code?<button id="btn-resend">Resend</button>
+  </p>
+  <form class="verify">
+    <input
+      type="number"
+      name="code"
+      id="code"
+      placeholder="6 Digit Code"
+      min="0"
+      required
+    />
+    <button class="btn-primary btn-verify" id="btn-verify">Verify Code</button>
+  </form>
 </div>
 {% endblock %}

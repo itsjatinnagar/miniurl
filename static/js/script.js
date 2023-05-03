@@ -1,44 +1,16 @@
-const request = (uri, method, headers, body) =>
-    new Promise(async (resolved) => {
-        const response = await fetch(uri, {
-            method: method,
-            headers: headers,
-            body: body,
-        });
-        if (response.status === 200) resolved(true);
-        else if (response.status === 500) showPopup(await response.text());
-        else resolved(false);
+window.onload = () =>
+  (document.getElementById("current-year").innerText =
+    new Date().getFullYear());
+
+function request(uri, body) {
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch(uri, {
+      method: body ? "POST" : "GET",
+      headers: { "Content-Type": "application/json" },
+      body: body,
     });
-
-function showPopup(message) {
-    console.log(`Popup to show error ${message} is appeared`);
+    if (response.status === 200) resolve({ type: "success", message: null });
+    else if (response.status === 500) showPopup();
+    else reject({ type: "error", message: await response.text() });
+  });
 }
-
-const openMenu = () => {
-    menu.classList.add("active");
-    menuButton.dataset.action = "close";
-};
-
-const closeMenu = () => {
-    menu.classList.remove("active");
-    menuButton.dataset.action = "open";
-};
-
-const menuButton = document.getElementById("btn-menu");
-const menu = document.getElementById("menu");
-
-menuButton.onclick = (event) => {
-    switch (event.target.dataset.action) {
-        case "open":
-            openMenu();
-            break;
-
-        case "close":
-            closeMenu();
-            break;
-
-        default:
-            console.error("Invalid menuButton action");
-            break;
-    }
-};
