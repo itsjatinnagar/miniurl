@@ -8,7 +8,7 @@
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
   background-color: #ffffff;
-  border-radius: 40px;
+  border-radius: var(--border-radius);
   z-index: 1001;
   overflow: hidden;
   transition: height 300ms linear, transform 200ms ease-out;
@@ -60,6 +60,7 @@
 
 .modal form button.btn-primary {
   padding: 8px 20px;
+  height: 43px;
   font-size: 18px;
   border-radius: 30px;
 }

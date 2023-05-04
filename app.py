@@ -5,7 +5,8 @@ from datetime import datetime
 from dotenv import load_dotenv
 from flask import Flask, redirect, render_template, request, session, url_for
 
-from controllers.helper import fetchTitle, generateCode, generateHash
+from controllers.analytics import getLinkAnalytics,insertAgent
+from controllers.helper import generateCode, generateHash
 from controllers.links import getLinks, insertLink, readLongLink, updateLink
 from controllers.mailer import emailCode
 from controllers.user import insertUser, readUserWithId, readUserWithMail, updateUser
@@ -18,6 +19,13 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.environ['SESSION_KEY']
+
+
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+)
 
 
 @app.route("/")
@@ -80,10 +88,20 @@ def logout():
 def shorten():
     try:
         long_url = request.json['long_url']
-        title = fetchTitle(long_url)
         hash = generateHash(HASH_LENGTH)
-        insertLink(session['_id'],title,hash,long_url,datetime.utcnow().strftime('%s'))
+        insertLink(session['_id'],hash,long_url,datetime.utcnow().strftime('%s'))
         return "Success", 200
+    except Exception as error:
+        logging.error(error)
+        return "Internal Server Error", 500
+
+
+@app.route('/miniurl')
+def linkInfo():
+    try:
+        linkId = request.args['id']
+        result = getLinkAnalytics(linkId)
+        return render_template('sidebar.html', info=result)
     except Exception as error:
         logging.error(error)
         return "Internal Server Error", 500
@@ -96,6 +114,7 @@ def returnOriginal(hash):
         if result is None:
             return redirect(location=url_for('index'), code=404)
         updateLink(result[0], {'click': int(result[2]) + 1})
+        insertAgent(result[0], str(request.user_agent), datetime.utcnow().strftime('%s'))
         return redirect(result[1])
     except Exception as error:
         logging.error(error)

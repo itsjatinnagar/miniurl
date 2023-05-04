@@ -6,11 +6,11 @@ MiniUrl is a Web Application based URL Shortening Service.
 
 ## Features
 
--   Passwordless Login
--   Single Page Application
--   Supports QR Codes
--   Supports Link Analytics (like: click count)
--   Custom Short ID
+- Passwordless Login
+- Single Page Application
+- Supports QR Codes
+- Supports Link Analytics
+- Custom Short ID
 
 ## Technologies used
 
@@ -25,36 +25,44 @@ MiniUrl is a Web Application based URL Shortening Service.
 
 ### Assumptions
 
-Assuming 117K new URLs per month and 100:1 read-write ratio.
+Assuming 40K new URLs created per month and 50:1 read-write ratio.
 
-|        Title        |                  Calculation                   |       Estimate       |
-| :-----------------: | :--------------------------------------------: | :------------------: |
-|      New URLs       |    117K / (30 days x 24 hours x 60 minutes)    |  3 links per minute  |
-|    URL redirects    | 117K x 100 / (30 days x 24 hours x 60 minutes) | 270 links per minute |
-| Storage for 90 days |        3000 bytes/URL x 117K x 3 months        |         1 GB         |
+|             Title             |                 Calculation                  |      Estimate       |
+| :---------------------------: | :------------------------------------------: | :-----------------: |
+|           New URLs            |          40K / (30 days x 24 hours)          |  50 links per hour  |
+|         URL redirects         | 40K x 50 / (30 days x 24 hours x 60 minutes) | 50 links per minute |
+|   Link Storage for 90 days    |       2080 bytes/URL x 40K x 3 months        |       238 MB        |
+| Analytics Storage for 90 days |     134 bytes/URL x 40K x 50 x 3 months      |       767 MB        |
 
 ### Constraints
 
--   512 MB RAM
--   1 GB Database Storage
--   90 Days Data Life
+- 512 MB RAM
+- 1 GB Database Storage
+- 90 Days Data Life
 
 ## Database Schema
 
--   User
-    | Column | Type |
-    | ------ | ---- |
-    | `_id` | integer |
-    | `email` | varchar(320) |
-    | `code` | char(6) |
+- User
+  | Column | Type |
+  | ------ | ---- |
+  | `_id` | integer |
+  | `email` | varchar(320) |
+  | `code` | char(6) |
 
--   URL
-    | Column | Type |
-    | ------ | ---- |
-    | `_id` | integer |
-    | `uid` | integer |
-    | `hash` | varchar(16) |
-    | `title` | varchar(925) |
-    | `long_url` | varchar(2048) |
-    | `creation_date` | varchar(10) |
-    | `clicks` | integer |
+- URL
+  | Column | Type |
+  | ------ | ---- |
+  | `_id` | integer |
+  | `uid` | integer |
+  | `hash` | varchar(16) |
+  | `long_url` | varchar(2048) |
+  | `created_at` | varchar(10) |
+  | `clicks` | integer |
+
+- Analytics
+  | Column | Type |
+  | ------ | ---- |
+  | `_id` | integer |
+  | `lid` | integer |
+  | `ua` | varchar(120) |
+  | `redirect_at` | varchar(10) |

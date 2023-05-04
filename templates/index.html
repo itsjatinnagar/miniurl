@@ -1,6 +1,7 @@
 {% extends "layout.html" %} {% block stylesheets %}
 <link rel="stylesheet" href="/static/css/style.css" />
 <link rel="stylesheet" href="/static/css/index.css" />
+<link rel="stylesheet" href="/static/css/modal.css" />
 {% endblock %} {% block scripts %}
 <script src="/static/js/script.js" defer></script>
 <script src="/static/js/index.js" defer></script>
@@ -22,10 +23,7 @@
     </p>
     <section class="f-cards">
       <div class="card">
-        <div class="card-topleft">
-          <h3>URL Shortener</h3>
-        </div>
-        <div class="card-topright">
+        <div class="card-top">
           <div class="flex icon">
             <img
               loading="lazy"
@@ -33,6 +31,7 @@
               alt="miniurl features link Shortener"
             />
           </div>
+          <h3>URL Shortener</h3>
         </div>
         <div class="card-content">
           <p>
@@ -43,10 +42,7 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-topleft">
-          <h3>Link Analytics</h3>
-        </div>
-        <div class="card-topright">
+        <div class="card-top">
           <div class="flex icon">
             <img
               loading="lazy"
@@ -54,6 +50,7 @@
               alt="miniurl features link analytics"
             />
           </div>
+          <h3>Link Analytics</h3>
         </div>
         <div class="card-content">
           <p>
@@ -64,10 +61,7 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-topleft">
-          <h3>QR Codes</h3>
-        </div>
-        <div class="card-topright">
+        <div class="card-top">
           <div class="flex icon">
             <img
               loading="lazy"
@@ -75,6 +69,7 @@
               alt="miniurl features qr codes"
             />
           </div>
+          <h3>QR Codes</h3>
         </div>
         <div class="card-content">
           <p>
@@ -89,7 +84,7 @@
 </main>
 <section class="container flex pricing" id="pricing">
   <h2>Boost your links for free</h2>
-  <button class="btn btn-primary btn-modal">Get Started</button>
+  <button class="btn btn-secondary btn-modal">Get Started</button>
 </section>
 {% endblock %} {% block overlay %}
 <div class="overlay" id="overlay"></div>
@@ -99,7 +94,7 @@
     Welcome to MiniUrl! To verify, we will send you a 6-digit code to your
     entered email address
   </p>
-  <form class="login">
+  <form class="login" id="login">
     <input
       type="email"
       name="email"
@@ -107,22 +102,24 @@
       placeholder="Email Address"
       required
     />
-    <button class="btn-primary btn-login" id="btn-login">Send Code</button>
+    <button class="btn btn-primary btn-login">Send Code</button>
   </form>
   <hr />
   <p class="resend-message">
     Didn't get the code?<button id="btn-resend">Resend</button>
   </p>
-  <form class="verify">
+  <form class="verify" id="verify">
     <input
-      type="number"
+      type="text"
+      inputmode="numeric"
       name="code"
       id="code"
       placeholder="6 Digit Code"
-      min="0"
+      minlength="6"
+      maxlength="6"
       required
     />
-    <button class="btn-primary btn-verify" id="btn-verify">Verify Code</button>
+    <button class="btn btn-primary btn-verify">Verify Code</button>
   </form>
 </div>
 {% endblock %}

@@ -1,0 +1,56 @@
+form.shorten {
+  margin-top: 20px;
+  padding: 8px 8px 8px 16px;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 40px;
+}
+
+form.shorten input {
+  flex: 1;
+}
+
+form.shorten button.btn-primary {
+  padding: 8px 20px;
+  height: 43px;
+  font-size: 18px;
+  border-radius: 30px;
+}
+
+section.cards {
+  margin-top: 40px;
+}
+
+section.cards .card {
+  padding: 20px;
+  display: flex;
+  column-gap: 10px;
+  text-align: left;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.0675);
+}
+
+.card p.long_url {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card a.short_url {
+  font-weight: 500;
+  color: var(--primary-background);
+}
+
+button.btn-sidebar {
+  height: 32px;
+  width: 64px;
+  display: inline-flex;
+  border-radius: 20px;
+}
+
+button.btn-sidebar img {
+  height: 20px;
+}

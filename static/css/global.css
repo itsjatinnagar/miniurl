@@ -7,10 +7,11 @@
   --accent-background: hsl(258, 27%, 26%);
   --accent-hover: hsl(258, 27%, 17%);
   --accent-text: hsl(0, 0%, 96%);
-  --error-background: hsl(349, 100%, 70%);
+  --error-background: hsl(349, 100%, 89%);
   --error-text: hsl(349, 100%, 27%);
   --paragraph-color: hsl(258, 1%, 23%);
   --border-color: hsl(258, 4%, 77%);
+  --border-radius: 40px;
 }
 
 * {
@@ -23,6 +24,10 @@ a {
   display: inline-block;
   text-decoration: none;
   color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 button,

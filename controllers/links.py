@@ -1,9 +1,9 @@
 from controllers.database import connect
 
 
-def insertLink(uid,title,hash,long_url,epoch):
-    query = 'INSERT INTO links (uid,title,hash,long_url,creation_date) VALUES (%s, %s, %s, %s, %s)'
-    values = (uid, title, hash, long_url, epoch)
+def insertLink(uid,hash,long_url,epoch):
+    query = 'INSERT INTO links (uid,hash,long_url,created_at) VALUES (%s, %s, %s, %s)'
+    values = (uid, hash, long_url, epoch)
 
     conn = connect()
     cursor = conn.cursor()
@@ -26,7 +26,7 @@ def updateLink(id, data):
 
 
 def getLinks(userId):
-    query = 'SELECT * FROM links WHERE uid = %s ORDER BY creation_date DESC'
+    query = 'SELECT * FROM links WHERE uid = %s ORDER BY created_at DESC'
     values = (userId,)
 
     conn = connect()
