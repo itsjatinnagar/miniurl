@@ -1,7 +1,5 @@
 # MiniUrl
 
-## Overview
-
 MiniUrl is a Web Application based URL Shortening Service.
 
 ## Features
@@ -10,16 +8,14 @@ MiniUrl is a Web Application based URL Shortening Service.
 - Single Page Application
 - Supports QR Codes
 - Supports Link Analytics
-- Custom Short ID
 
 ## Technologies used
 
-1. HTML5
-2. CSS3
-3. JavaScript
-4. Flask
-5. PostgreSQL
-6. Docker
+1. React
+1. Redux Toolkit
+1. Flask
+1. PostgreSQL
+1. Docker
 
 ## System Design
 
@@ -47,14 +43,13 @@ Assuming 40K new URLs created per month and 50:1 read-write ratio.
   | ------ | ---- |
   | `_id` | integer |
   | `email` | varchar(320) |
-  | `code` | char(6) |
 
 - URL
   | Column | Type |
   | ------ | ---- |
   | `_id` | integer |
   | `uid` | integer |
-  | `hash` | varchar(16) |
+  | `hash` | varchar(4) |
   | `long_url` | varchar(2048) |
   | `created_at` | varchar(10) |
   | `clicks` | integer |

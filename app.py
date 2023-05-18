@@ -1,121 +1,131 @@
 import logging
 import os
-import secrets
 from datetime import datetime
 from dotenv import load_dotenv
-from flask import Flask, redirect, render_template, request, session, url_for
+from flask import Flask, request, session, jsonify, redirect, url_for
 
-from controllers.analytics import getLinkAnalytics,insertAgent
-from controllers.helper import generateCode, generateHash
-from controllers.links import getLinks, insertLink, readLongLink, updateLink
-from controllers.mailer import emailCode
-from controllers.user import insertUser, readUserWithId, readUserWithMail, updateUser
+from database.links import insertLink, readAllLinks, readRedirectLink, updateLinkClicks
+from database.analytics import insertAgent
+from database.user import insertUser, readUser
+from decorators.auth import session_auth
+from utils.mail import emailVerificationCode
+from utils.token import tokenEncode
+from utils.verificationCode import generateVerificationCode, hashedVerificationCode, checkVerificationCode, generateLinkHash
 
-
-OTP_LENGTH = 6
-HASH_LENGTH = 4
 load_dotenv()
 
-
-app = Flask(__name__)
-app.secret_key = os.environ['SESSION_KEY']
-
-
+app = Flask(__name__, static_folder='app', static_url_path="/")
+app.config['SECRET_KEY'] = os.environ['SESSION_KEY']
 app.config.update(
     SESSION_COOKIE_SECURE=True,
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE='Lax',
+    SESSION_COOKIE_SAMESITE='Strict'
 )
 
-
-@app.route("/")
+@app.route('/')
 def index():
+    return app.send_static_file("index.html")
+
+@app.route('/favicon.ico')
+def favicon():
+    return app.send_static_file("favicon.ico")
+
+@app.route('/manifest.json')
+def manifest():
+    return app.send_static_file("manifest.json")
+
+@app.route('/icon192.png')
+def icon192():
+    return app.send_static_file("icon192.png")
+
+@app.route('/icon512.png')
+def icon512():
+    return app.send_static_file("icon512.png")
+
+@app.route('/auth', methods=['POST'])
+def auth():
     try:
-        identifiers = session['_id']
-        isAuthenticated = session['_w__c__A']
-    except:
-        identifiers = None
-        isAuthenticated = None
-
-    if identifiers is None or isAuthenticated is None:
-        return render_template('index.html')
-    else:
-        try:
-            data = getLinks(session['_id'])
-            result = readUserWithId(session['_id'])
-            if result is None:
-                session.clear()
-                return render_template('index.html')
-            return render_template('user.html', username = result[1].split('@')[0], host=request.host_url, data = data)
-        except Exception as error:
-            logging.error(error)
-
-
-@app.route("/login", methods=['GET','POST'])
-def login():
-    try:
-        if request.method == 'GET':
-            code = generateCode(OTP_LENGTH)
-            emailCode(request.args['email'], code)
-            user = readUserWithMail(request.args['email'])
-            if user is None:
-                userId = insertUser(request.args['email'], code)
-            else:
-                userId = user[0]
-                updateUser(userId, code)
-            session['_id'] = userId
-            return "Success", 200
-        else:
-            user = readUserWithId(session['_id'])
-            if user is None:
-                return "Unauthorized", 401
-            if user[2] == request.json['code']:
-                session['_w__c__A'] = secrets.token_hex(8)
-                return "Success", 200
-            return "Invalid Code", 400
+        userEmail = request.json['email']
+        verificationCode = generateVerificationCode()
+        hashedCode = hashedVerificationCode(verificationCode)
+        emailVerificationCode(userEmail,verificationCode)
+        session['email'] = userEmail
+        session['code'] = hashedCode
+        return jsonify({'type': 'success', 'message': 'verification code sent', 'email': userEmail}), 200
     except Exception as error:
         logging.error(error)
-        return "Internal Server Error", 500
+        return jsonify({'type': 'error', 'message': 'internal server error'}), 500
 
+@app.route('/verify', methods=['POST'])
+def verify():
+    try:
+        userCode = request.json['code']
+        if not checkVerificationCode(userCode,session['code']):
+            return jsonify({'type':'error', 'message':'incorrect code'}), 403
+    
+        user = readUser(session['email'])
+        if user is None:
+            id = insertUser(session['email'])
+            user = (id, session['email'])
 
-@app.route('/logout')
+        session.clear()
+        session['token'] = tokenEncode({"id": user[0], "email": user[1]})
+        session['address'] = request.remote_addr
+        session.permanent = True
+        return jsonify({'type':'success', 'message': 'user verified'}), 200
+    except Exception as error:
+        logging.error(error)
+        return jsonify({'type': 'error', 'message': 'internal server error'}), 500
+
+@app.route('/user', methods=['GET'])
+@session_auth
+def user():
+    try:
+        return jsonify({'type':'success', 'data': request.data}), 200
+    except Exception as error:
+        logging.error(error)
+        return jsonify({'type': 'error', 'message': 'internal server error'}), 500
+
+@app.route('/logout', methods=['GET'])
 def logout():
     session.clear()
     return redirect(url_for('index'))
 
-
 @app.route('/shorten', methods=['POST'])
+@session_auth
 def shorten():
     try:
-        long_url = request.json['long_url']
-        hash = generateHash(HASH_LENGTH)
-        insertLink(session['_id'],hash,long_url,datetime.utcnow().strftime('%s'))
-        return "Success", 200
+        userId = request.data['id']
+        userLink = request.json['link']
+        hash = generateLinkHash()
+        created_at = int(datetime.now().timestamp())
+        linkId = insertLink(userId,hash,userLink,created_at)
+        return jsonify({'type':'success','data':{'id': linkId,'long_link':userLink,'hash':hash,'clicks':0,'created_at': created_at}}),200
     except Exception as error:
         logging.error(error)
-        return "Internal Server Error", 500
+        return jsonify({'type': 'error', 'message': 'internal server error'}), 500
 
-
-@app.route('/miniurl')
-def linkInfo():
+@app.route('/links', methods=['GET'])
+@session_auth
+def links():
     try:
-        linkId = request.args['id']
-        result = getLinkAnalytics(linkId)
-        return render_template('sidebar.html', info=result)
+        userId = request.data['id']
+        result = readAllLinks(userId)
+        data = [{'id':item[0],'long_link':item[3],'hash':item[2],'clicks':item[5],'created_at':item[4]} for item in result]
+        return jsonify({'type':'success','data':{'links':data}}),200
     except Exception as error:
         logging.error(error)
-        return "Internal Server Error", 500
+        return jsonify({'type': 'error', 'message': 'internal server error'}), 500
 
-
-@app.route('/<string:hash>')
-def returnOriginal(hash):
+@app.route('/<string:hash>', methods=['GET'])
+def redirectOriginal(hash):
     try:
-        result = readLongLink(hash)
+        result = readRedirectLink(hash)
         if result is None:
-            return redirect(location=url_for('index'), code=404)
-        updateLink(result[0], {'click': int(result[2]) + 1})
-        insertAgent(result[0], str(request.user_agent), datetime.utcnow().strftime('%s'))
+            return redirect(url_for('index'),404)
+            
+        updateLinkClicks(result[0], int(result[2]) + 1)
+        insertAgent(result[0], str(request.user_agent), int(datetime.now().timestamp()))
         return redirect(result[1])
     except Exception as error:
         logging.error(error)
-        return redirect(location=url_for('index'),code=500)
+        return redirect(url_for('index'),500)

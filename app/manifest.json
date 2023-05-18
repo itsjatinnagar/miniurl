@@ -1,0 +1,27 @@
+{
+  "short_name": "MiniUrl",
+  "name": "MiniUrl",
+  "description": "MiniUrl is the best free URL Shortener for everyone. Create short links and QR codes and share everywhere. Track MiniUrl statistics by monitoring the number of hits.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "icon192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "id": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}
