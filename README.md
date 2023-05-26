@@ -61,3 +61,7 @@ Assuming 40K new URLs created per month and 50:1 read-write ratio.
   | `lid` | integer |
   | `ua` | varchar(120) |
   | `redirect_at` | varchar(10) |
+
+## Checkout
+
+You can checkout the Frontend of the **MiniUrl** on https://github.com/itsjatinnagar/miniurl-ui
