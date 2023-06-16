@@ -1,8 +1,8 @@
 from database.connect import connect
 
-def insertUser(email):
-  query = 'INSERT INTO users (email) VALUES (%s) RETURNING _id'
-  values = (email,)
+def insertUser(email,created_at):
+  query = 'INSERT INTO users (email,created_at) VALUES (%s,%s) RETURNING _id'
+  values = (email,created_at)
 
   conn = connect()
   cursor = conn.cursor()

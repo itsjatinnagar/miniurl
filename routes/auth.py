@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from flask import Blueprint,jsonify,redirect,request,session,url_for
 
 from database.user import insertUser,readUser
@@ -31,7 +32,7 @@ def verify():
     
         user = readUser(session['email'])
         if user is None:
-            id = insertUser(session['email'])
+            id = insertUser(session['email'],int(datetime.now().timestamp()))
             user = (id, session['email'])
 
         session.clear()

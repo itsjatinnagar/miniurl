@@ -48,7 +48,7 @@ def redirectOriginal(hash):
         result = readRedirectLink(hash)
         if result is None:
             return redirect(url_for('index'),404)
-            
+
         updateLinkClicks(result[0], int(result[2]) + 1)
         insertAgent(result[0], str(request.user_agent), int(datetime.now().timestamp()))
         return redirect(result[1])

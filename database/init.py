@@ -10,6 +10,7 @@ cursor.execute('DROP TABLE IF EXISTS users, links, analytics')
 cursor.execute('CREATE TABLE users('
             '_id SERIAL,'
             'email VARCHAR(320) UNIQUE NOT NULL,'
+            'created_at VARCHAR(10) NOT NULL,'
             'PRIMARY KEY (_id)'
             ')')
 
