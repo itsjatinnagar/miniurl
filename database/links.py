@@ -1,73 +1,53 @@
-from database.connect import connect
+import os
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
-def insertLink(userId, hash, longLink, created_at):
-    query = 'INSERT INTO links (uid,hash,long_url,created_at) VALUES (%s,%s,%s,%s) RETURNING _id'
-    values = (userId,hash,longLink,created_at)
-
-    conn = connect()
-    cursor = conn.cursor()
-
-    cursor.execute(query,values)
+def createLink(uid, hash, long_url, created_at):
+  conn = psycopg2.connect(os.environ['DB_URI'])
+  query = 'INSERT INTO links (uid, hash, long_url, created_at) VALUES (%s, %s, %s, %s) RETURNING id'
+  values = (uid, hash, long_url, created_at)
+  with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+    cursor.execute(query, values)
     conn.commit()
-
-    linkId = cursor.fetchone()[0]
-
-    cursor.close()
-    conn.close()
-    return linkId
-
-def updateLinkClicks(id,clicks):
-    query = "UPDATE links SET clicks = %s WHERE _id = %s"
-    values = (clicks,id)
-
-    conn = connect()
-    cursor = conn.cursor()
-
-    cursor.execute(query,values)
-    conn.commit()
-
-    cursor.close()
-    conn.close()
-
-def readAllLinks(userId):
-    query = 'SELECT * FROM links WHERE uid = %s ORDER BY created_at DESC'
-    values= (userId,)
-
-    conn = connect()
-    cursor = conn.cursor()
-
-    cursor.execute(query,values)
-    result = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-    return result
-
-def readRedirectLink(hash):
-    query = 'SELECT _id,long_url,clicks FROM links WHERE hash = %s'
-    values = (hash,)
-
-    conn = connect()
-    cursor = conn.cursor()
-
-    cursor.execute(query,values)
     result = cursor.fetchone()
+  conn.close()
+  return result['id']
 
-    cursor.close()
-    conn.close()
-    return result
-
-def hashExists(hash):
-    query = 'SELECT _id FROM links WHERE hash = %s'
-    values = (hash,)
-
-    conn = connect()
-    cursor = conn.cursor()
-
-    cursor.execute(query,values)
+def readLinks(uid):
+  conn = psycopg2.connect(os.environ['DB_URI'])
+  query = 'SELECT * FROM links WHERE uid = %s ORDER BY created_at DESC'
+  values = (uid,)
+  with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+    cursor.execute(query, values)
     result = cursor.fetchall()
+  conn.close()
+  return result
 
-    cursor.close()
-    conn.close()
+def updateLink(id, clicks):
+  conn = psycopg2.connect(os.environ['DB_URI'])
+  query = 'UPDATE links SET clicks = %s WHERE id = %s'
+  values = (clicks, id)
+  with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+    cursor.execute(query, values)
+    conn.commit()
+  conn.close()
 
-    return True if len(result) else False
+def readLongLink(hash):
+  conn = psycopg2.connect(os.environ['DB_URI'])
+  query = 'SELECT id, long_url, clicks FROM links WHERE hash = %s'
+  values = (hash,)
+  with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+    cursor.execute(query, values)
+    result = cursor.fetchone()
+  conn.close()
+  return result
+
+def checkHash(hash):
+  conn = psycopg2.connect(os.environ['DB_URI'])
+  query = 'SELECT id FROM links WHERE hash = %s'
+  values = (hash,)
+  with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+    cursor.execute(query, values)
+    result = cursor.fetchall()
+  conn.close()
+  return True if len(result) else False

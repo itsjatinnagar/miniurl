@@ -2,37 +2,33 @@ import os
 import psycopg2
 
 connection = psycopg2.connect(os.environ['DB_URI'])
-
 cursor = connection.cursor()
 
 cursor.execute('DROP TABLE IF EXISTS users, links, analytics')
 
 cursor.execute('CREATE TABLE users('
-            '_id SERIAL,'
-            'email VARCHAR(320) UNIQUE NOT NULL,'
-            'created_at VARCHAR(10) NOT NULL,'
-            'PRIMARY KEY (_id)'
-            ')')
+               'id INTEGER GENERATED ALWAYS AS IDENTITY,'
+               'email VARCHAR(320) UNIQUE NOT NULL,'
+               'created_at VARCHAR(10) NOT NULL,'
+               'PRIMARY KEY (id))')
 
 cursor.execute('CREATE TABLE links('
-            '_id SERIAL,'
-            'uid INTEGER NOT NULL,'
-            'hash VARCHAR(4),'
-            'long_url VARCHAR(2048) NOT NULL,'
-            'created_at VARCHAR(10) NOT NULL,'
-            'clicks INTEGER NOT NULL DEFAULT 0,'
-            'PRIMARY KEY (_id),'
-            'FOREIGN KEY (uid) REFERENCES users(_id)'
-            ')')
+               'id INTEGER GENERATED ALWAYS AS IDENTITY,'
+               'uid INTEGER NOT NULL,'
+               'hash CHAR(4) UNIQUE NOT NULL,'
+               'long_url VARCHAR(2048) NOT NULL,'
+               'created_at VARCHAR(10) NOT NULL,'
+               'clicks INTEGER NOT NULL DEFAULT 0,'
+               'PRIMARY KEY (id),'
+               'FOREIGN KEY (uid) REFERENCES users(id))')
 
 cursor.execute('CREATE TABLE analytics('
-            '_id SERIAL,'
-            'lid INTEGER NOT NULL,'
-            'user_agent VARCHAR(120) NOT NULL,'
-            'redirect_at VARCHAR(10) NOT NULL,'
-            'PRIMARY KEY (_id),'
-            'FOREIGN KEY (lid) REFERENCES links(_id)'
-            ')')
+               'id INTEGER GENERATED ALWAYS AS IDENTITY,'
+               'lid INTEGER NOT NULL,'
+               'user_agent VARCHAR(180) NOT NULL,'
+               'redirect_at VARCHAR(10) NOT NULL,'
+               'PRIMARY KEY (id),'
+               'FOREIGN KEY (lid) REFERENCES links(id))')
 
 connection.commit()
 cursor.close()
