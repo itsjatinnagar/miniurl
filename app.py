@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from routes.auth import auth_bp
 from routes.link import link_bp
@@ -7,6 +8,7 @@ from routes.misc import misc_bp
 from routes.user import user_bp
 
 app = Flask(__name__, static_folder='app', static_url_path='/')
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 app.config.update(
