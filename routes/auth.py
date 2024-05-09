@@ -60,7 +60,7 @@ def resend():
     user_mail = session['email']
     code = randint(1000, 9999)
     sendMail(user_mail, code)
-    session['code'] = createHash(code)
+    session['code'] = createHash(str(code))
     session['code_created_at'] = int(time())
     session['code_attempts'] = 0
     return jsonify({'type': 'success', 'message': 'code resent successfully'}), 200
