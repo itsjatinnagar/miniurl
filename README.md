@@ -1,3 +1,5 @@
+![miniurl_preview](https://github.com/itsjatinnagar/miniurl/assets/121741542/cf3b74c9-4191-41ef-898b-ee9559196fba)
+
 ## Overview
 
 **miniurl** is a web application that allows users to generate unique, short identifiers for long URLs. These can be shared across any platform, and the service takes only milliseconds to create a short URL.
