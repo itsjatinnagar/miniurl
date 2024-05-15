@@ -16,8 +16,10 @@ The MiniUrl Team
   message.add_alternative("""\
 <html>
   <head></head>
-  <body style="font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;font-size:16px;font-weight:400;line-height:1.5">
-    <p>Your sign in code is: <b>{code}</b></p>
+  <body style="font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;font-size:16px;font-weight:400;line-height:1.5;color:#010118;">
+    <h1 style="font-weight:600;font-size:24px;">Verification Code</h1>
+    <p>Your sign in code is:</p>
+    <p style="font-size:20px;line-height:2;"><b style="color:#0C0CF0;letter-spacing:6px;">{code}</b></p>
     <p>This code is valid for the next <b>15 minutes</b> only.</p>
     <p>Remember, do not share this code with anyone.</p>
     <p><b>The MiniUrl Team</b></p>
