@@ -1,4 +1,4 @@
-![miniurl_preview](https://github.com/itsjatinnagar/miniurl/assets/121741542/cf3b74c9-4191-41ef-898b-ee9559196fba)
+![miniurl_preview](https://github.com/itsjatinnagar/miniurl/assets/121741542/225c4cc4-1cd6-4730-95ab-6080ba1dec9b)
 
 ## Overview
 
